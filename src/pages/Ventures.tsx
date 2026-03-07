@@ -3,9 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 
-const API_URL = import.meta.env.PROD
-  ? 'https://platform.acumen.zone/api/v1/fiftyknots/ventures'
-  : 'https://platform.acumen.zone/api/v1/fiftyknots/ventures'
+const API_URL = 'https://platform.fiftyknots.com/api/v1/fiftyknots/ventures'
 
 interface Venture {
   name: string

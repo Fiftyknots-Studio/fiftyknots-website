@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Mail, MapPin, ArrowRight, Loader2 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 
-const API_URL = 'https://platform.acumen.zone/api/v1/fiftyknots/contact'
+const API_URL = 'https://platform.fiftyknots.com/api/v1/fiftyknots/contact'
 
 export function Contact() {
   usePageMeta('Contact', 'Get in touch with FiftyKnots. Start a free brief, explore a partnership, or ask us anything.')
