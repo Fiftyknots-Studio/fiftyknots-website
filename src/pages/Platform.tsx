@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Bot, FileCheck, ShieldCheck, Wallet, BarChart3, BookOpen } from 'lucide-react'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const capabilities = [
   {
@@ -40,6 +41,8 @@ const capabilities = [
 ]
 
 export function Platform() {
+  usePageMeta('Platform', 'AI-powered briefing, expert matchmaking, quality-certified specifications, and escrow-protected delivery. See how FiftyKnots works.')
+
   return (
     <div className="pt-16">
       {/* Hero */}

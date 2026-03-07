@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Zap, Shield, Users, TrendingUp } from 'lucide-react'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -43,6 +44,8 @@ const journey = [
 ]
 
 export function Home() {
+  usePageMeta('FiftyKnots - Start Up. Build Up. Scale Up.', 'Venture studio that takes founders from imagination to shipped product in 8-12 weeks. AI-powered. Quality-certified. 83% less than the traditional path.')
+
   return (
     <div className="pt-16">
       {/* Hero */}

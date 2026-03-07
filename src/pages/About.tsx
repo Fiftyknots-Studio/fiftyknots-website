@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const team = [
   {
@@ -42,6 +43,8 @@ const values = [
 ]
 
 export function About() {
+  usePageMeta('About', 'Meet the team behind FiftyKnots. 7 cohorts, 30 ventures, and 8+ years of building ventures from scratch.')
+
   return (
     <div className="pt-16">
       {/* Hero */}

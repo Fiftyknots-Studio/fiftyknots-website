@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Loader2 } from 'lucide-react'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const API_URL = import.meta.env.PROD
   ? 'https://platform.acumen.zone/api/v1/fiftyknots/ventures'
@@ -60,6 +61,8 @@ function stageBadge(stage: string) {
 }
 
 export function Ventures() {
+  usePageMeta('Ventures', '30+ ventures across 7 cohorts. See the live portfolio powered by FiftyKnots.')
+
   const [ventures, setVentures] = useState<Venture[]>(fallbackVentures)
   const [isLive, setIsLive] = useState(false)
   const [loading, setLoading] = useState(true)
