@@ -53,6 +53,12 @@ export function Home() {
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-orange-light/5 via-transparent to-transparent" />
 
+        {/* Mobile-only background image */}
+        <div
+          className="absolute inset-0 md:hidden bg-cover bg-[position:50%_10%] opacity-15"
+          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}astronaut-kid-nobg.png)` }}
+        />
+
         <div className="max-w-7xl mx-auto px-6 py-24 w-full">
           <div className="grid md:grid-cols-2 gap-12">
             {/* Text - left column */}
@@ -65,8 +71,11 @@ export function Home() {
                 <br />
                 <span className="gradient-text-brand">shipped product.</span>
               </h1>
+              <p className="text-2xl md:text-3xl font-bold text-white/70 mb-6">
+                In a heartbeat, not a lifetime.
+              </p>
               <p className="text-xl md:text-2xl text-white/50 leading-relaxed mb-10">
-                In a heartbeat, not a lifetime. First-time founders pay a $100-200K "learning tax" building software ventures.
+                First-time founders pay a $100-200K "learning tax" building software ventures.
                 Half their budget wasted on requirements that were wrong from day one.
                 We built a better way.
               </p>
