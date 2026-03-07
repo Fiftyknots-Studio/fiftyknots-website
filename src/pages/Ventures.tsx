@@ -57,6 +57,7 @@ function stageBadge(stage: string) {
   if (stage.includes('to Founder')) return { label: 'Exited to Founders', color: 'bg-turquoise/10 text-turquoise-light border-turquoise/20' }
   if (stage.includes('Failed MPF')) return { label: 'Failed MPF', color: 'bg-white/5 text-white/30 border-white/10' }
   if (stage.includes('Failure to Launch')) return { label: 'Failed to Launch', color: 'bg-white/5 text-white/30 border-white/10' }
+  if (stage.includes('Not Validated')) return { label: 'Not Validated', color: 'bg-white/5 text-white/30 border-white/10' }
   return { label: stage, color: 'bg-white/5 text-white/40 border-white/10' }
 }
 
@@ -82,9 +83,9 @@ export function Ventures() {
       .finally(() => setLoading(false))
   }, [])
 
-  const active = ventures.filter(v => !v.stage.includes('EXIT') && !v.stage.includes('Validation'))
+  const active = ventures.filter(v => !v.stage.includes('EXIT') && v.stage !== 'Validation')
   const exited = ventures.filter(v => v.stage.includes('to Founder'))
-  const failed = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure'))
+  const failed = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure') || v.stage.includes('Not Validated'))
   const validating = ventures.filter(v => v.stage === 'Validation')
 
   return (
