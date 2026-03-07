@@ -49,10 +49,12 @@ const fallbackVentures: Venture[] = [
   { name: 'FiftyKnots Impact', cohort: 4, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
 ]
 
-function stageBadge(stage: string) {
+function stageBadge(v: Venture) {
+  const { stage, alive } = v
+  if (stage === 'Validation' && !alive) return { label: 'Failed Validation', color: 'bg-white/5 text-white/30 border-white/10' }
+  if (stage === 'Validation') return { label: 'Validating', color: 'bg-yellow/10 text-yellow border-yellow/20' }
   if (stage === 'Launch-to-Scale') return { label: 'Scaling', color: 'bg-turquoise/10 text-turquoise border-turquoise/20' }
   if (stage === 'Zero-to-Founder') return { label: 'Building', color: 'bg-blue/10 text-blue border-blue/20' }
-  if (stage === 'Validation') return { label: 'Validating', color: 'bg-yellow/10 text-yellow border-yellow/20' }
   if (stage === 'Corporate Innovator') return { label: 'Corporate', color: 'bg-orange/10 text-orange border-orange/20' }
   if (stage.includes('to Founder')) return { label: 'Exited to Founders', color: 'bg-turquoise/10 text-turquoise-light border-turquoise/20' }
   if (stage.includes('Failed MPF')) return { label: 'Failed MPF', color: 'bg-white/5 text-white/30 border-white/10' }
@@ -83,10 +85,10 @@ export function Ventures() {
       .finally(() => setLoading(false))
   }, [])
 
-  const active = ventures.filter(v => !v.stage.includes('EXIT') && v.stage !== 'Validation')
+  const active = ventures.filter(v => !v.stage.includes('EXIT') && !(v.stage === 'Validation' && !v.alive))
   const exited = ventures.filter(v => v.stage.includes('to Founder'))
-  const failed = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure') || v.stage.includes('Not Validated'))
-  const validating = ventures.filter(v => v.stage === 'Validation')
+  const failed = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure') || v.stage.includes('Not Validated') || (v.stage === 'Validation' && !v.alive))
+  const validating = ventures.filter(v => v.stage === 'Validation' && v.alive)
 
   return (
     <div className="pt-16">
@@ -146,7 +148,7 @@ export function Ventures() {
               <h2 className="text-2xl font-bold text-white mb-8">Active Ventures</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {active.map((v, i) => {
-                  const badge = stageBadge(v.stage)
+                  const badge = stageBadge(v)
                   return (
                     <motion.div
                       key={v.name}
@@ -181,7 +183,7 @@ export function Ventures() {
                 <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
                 <div className="grid md:grid-cols-3 gap-4">
                   {exited.map((v) => {
-                    const badge = stageBadge(v.stage)
+                    const badge = stageBadge(v)
                     return (
                       <div key={v.name} className="glass-card p-6">
                         <h3 className="text-lg font-semibold text-white mb-3">{v.name}</h3>
@@ -206,7 +208,7 @@ export function Ventures() {
               </p>
               <div className="grid md:grid-cols-4 gap-3">
                 {failed.map((v) => {
-                  const badge = stageBadge(v.stage)
+                  const badge = stageBadge(v)
                   return (
                     <div key={v.name} className="glass-card p-4">
                       <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
