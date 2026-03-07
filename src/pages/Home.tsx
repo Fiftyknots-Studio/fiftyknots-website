@@ -97,7 +97,7 @@ export function Home() {
               style={{ mask: 'radial-gradient(ellipse 70% 70% at center, black 50%, transparent 100%)', WebkitMask: 'radial-gradient(ellipse 70% 70% at center, black 50%, transparent 100%)' }}
             >
               <img
-                src="/astronaut-kid-nobg.png"
+                src={`${import.meta.env.BASE_URL}astronaut-kid-nobg.png`}
                 alt="Dream big, build real"
                 className="absolute inset-0 w-full h-full object-cover object-[50%_10%] scale-150"
               />
@@ -135,7 +135,7 @@ export function Home() {
               <div className="relative rounded-2xl overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent z-10" />
                 <img
-                  src="/ideaboy.jpg"
+                  src={`${import.meta.env.BASE_URL}ideaboy.jpg`}
                   alt="From questions to ideas"
                   className="w-full rounded-2xl"
                 />
@@ -254,7 +254,7 @@ export function Home() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-blue/10 to-turquoise/10 rounded-full blur-2xl" />
                 <img
-                  src="/astronaut-kid.png"
+                  src={`${import.meta.env.BASE_URL}astronaut-kid.png`}
                   alt="Dream big, build real"
                   className="relative rounded-2xl max-h-[400px] object-cover mx-auto"
                 />

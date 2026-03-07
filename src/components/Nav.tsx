@@ -19,7 +19,7 @@ export function Nav() {
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-dark/80 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src="/logo-white.png" alt="FiftyKnots" className="h-20" />
+          <img src={`${import.meta.env.BASE_URL}logo-white.png`} alt="FiftyKnots" className="h-20" />
         </Link>
 
         {/* Desktop */}

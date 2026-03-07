@@ -8,7 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src="/logo-white.png" alt="FiftyKnots" className="h-24" />
+              <img src={`${import.meta.env.BASE_URL}logo-white.png`} alt="FiftyKnots" className="h-24" />
             </div>
             <p className="text-white/40 text-sm max-w-md leading-relaxed">
               Venture studio building an AI-powered platform that takes founders from messy idea
