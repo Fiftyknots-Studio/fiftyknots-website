@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: '/fiftyknots-website/',
   build: {
     outDir: 'dist',
     sourcemap: false,
