@@ -8,7 +8,7 @@ import { Contact } from './pages/Contact'
 
 export default function App() {
   return (
-    <BrowserRouter basename="/fiftyknots-website">
+    <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
