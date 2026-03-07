@@ -55,7 +55,7 @@ export function Home() {
 
         {/* Mobile-only background image */}
         <div
-          className="absolute inset-0 md:hidden bg-cover bg-[position:50%_10%] opacity-15"
+          className="absolute inset-0 md:hidden bg-cover bg-[position:50%_10%] opacity-15 pointer-events-none"
           style={{ backgroundImage: `url(${import.meta.env.BASE_URL}astronaut-kid-nobg.png)` }}
         />
 
