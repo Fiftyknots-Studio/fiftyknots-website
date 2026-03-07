@@ -66,7 +66,7 @@ export function Home() {
                 <span className="gradient-text-brand">shipped product.</span>
               </h1>
               <p className="text-xl md:text-2xl text-white/50 leading-relaxed mb-10">
-                First-time founders pay a $100-200K "learning tax" building software ventures.
+                In a heartbeat, not a lifetime. First-time founders pay a $100-200K "learning tax" building software ventures.
                 Half their budget wasted on requirements that were wrong from day one.
                 We built a better way.
               </p>
