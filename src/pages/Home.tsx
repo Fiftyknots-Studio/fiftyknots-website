@@ -51,7 +51,7 @@ export function Home() {
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-light/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-light/5 via-transparent to-transparent pointer-events-none" />
 
         {/* Mobile-only background image */}
         <div
@@ -59,7 +59,7 @@ export function Home() {
           style={{ backgroundImage: `url(${import.meta.env.BASE_URL}astronaut-kid-nobg.png)` }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 py-24 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
           <div className="grid md:grid-cols-2 gap-12">
             {/* Text - left column */}
             <motion.div {...fadeUp}>
