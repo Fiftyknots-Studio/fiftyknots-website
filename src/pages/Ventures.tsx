@@ -113,10 +113,10 @@ export function Ventures() {
           {/* Summary stats */}
           <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
+              { value: exited.length, label: 'Graduated', color: 'text-turquoise-light' },
               { value: active.length, label: 'Active', color: 'text-turquoise' },
-              { value: exited.length, label: 'Exited to Founders', color: 'text-turquoise-light' },
-              { value: failed.length, label: 'Failed', color: 'text-white/30' },
               { value: validating.length, label: 'Validating', color: 'text-yellow' },
+              { value: failed.length, label: 'Retired', color: 'text-white/30' },
               { value: '8+', label: 'Years', color: 'text-orange-light' },
             ].map(({ value, label, color }) => (
               <div key={label} className="glass-card p-4 text-center">
@@ -140,6 +140,30 @@ export function Ventures() {
         </div>
       ) : (
         <>
+          {/* Graduated - the pinnacle */}
+          {exited.length > 0 && (
+            <section className="py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-2xl font-bold text-white mb-2">Graduated</h2>
+                <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {exited.map((v) => {
+                    const badge = stageBadge(v)
+                    return (
+                      <div key={v.name} className="glass-card p-6">
+                        <h3 className="text-lg font-semibold text-white mb-3">{v.name}</h3>
+                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                        <p className="text-xs text-white/20 mt-3">Cohort {v.cohort}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Active Ventures */}
           <section className="py-12 border-t border-white/5">
             <div className="max-w-7xl mx-auto px-6">
@@ -173,36 +197,12 @@ export function Ventures() {
             </div>
           </section>
 
-          {/* Exits */}
-          {exited.length > 0 && (
-            <section className="py-12 border-t border-white/5">
-              <div className="max-w-7xl mx-auto px-6">
-                <h2 className="text-2xl font-bold text-white mb-2">Successful Exits</h2>
-                <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
-                <div className="grid md:grid-cols-3 gap-4">
-                  {exited.map((v) => {
-                    const badge = stageBadge(v)
-                    return (
-                      <div key={v.name} className="glass-card p-6">
-                        <h3 className="text-lg font-semibold text-white mb-3">{v.name}</h3>
-                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                          {badge.label}
-                        </span>
-                        <p className="text-xs text-white/20 mt-3">Cohort {v.cohort}</p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Failed */}
+          {/* Retired */}
           <section className="py-12 border-t border-white/5">
             <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-2xl font-bold text-white mb-2">The Ones That Didn't Make It</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">Retired</h2>
               <p className="text-sm text-white/30 mb-8">
-                Every failure taught us something. The scar tissue is what makes the platform better.
+                Every venture teaches us something. The lessons from these shape every new cohort.
               </p>
               <div className="grid md:grid-cols-4 gap-3">
                 {failed.map((v) => {
