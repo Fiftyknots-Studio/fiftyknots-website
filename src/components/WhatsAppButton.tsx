@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { MessageCircle, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const WHATSAPP_URL = 'https://wa.me/27738100350?text=Hi%20FiftyKnots!'
+const WHATSAPP_URL = 'https://wa.me/27738100350?text=Hi%20FiftyKnots!%20%5Bfrom%20website%5D'
 
 export function WhatsAppButton() {
   const [tooltip, setTooltip] = useState(true)
