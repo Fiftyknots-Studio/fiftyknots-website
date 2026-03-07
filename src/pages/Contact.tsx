@@ -1,14 +1,40 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, ArrowRight } from 'lucide-react'
+import { Mail, MapPin, ArrowRight, Loader2 } from 'lucide-react'
+
+const API_URL = 'https://platform.acumen.zone/api/v1/fiftyknots/contact'
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // TODO: Wire to backend or form service (Formspree, etc.)
-    setSubmitted(true)
+    setSending(true)
+    setError('')
+
+    const form = e.currentTarget
+    const data = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      interest: (form.elements.namedItem('interest') as HTMLSelectElement).value,
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+    }
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error('Failed to send')
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please email info@fiftyknots.com instead.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -87,6 +113,7 @@ export function Contact() {
                   <div>
                     <label className="block text-sm text-white/50 mb-1.5">Name</label>
                     <input
+                      name="name"
                       type="text"
                       required
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
@@ -96,6 +123,7 @@ export function Contact() {
                   <div>
                     <label className="block text-sm text-white/50 mb-1.5">Email</label>
                     <input
+                      name="email"
                       type="email"
                       required
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
@@ -105,6 +133,7 @@ export function Contact() {
                   <div>
                     <label className="block text-sm text-white/50 mb-1.5">I'm interested in...</label>
                     <select
+                      name="interest"
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-orange/50 transition-colors"
                     >
                       <option value="brief" className="bg-dark">Starting a free brief</option>
@@ -116,17 +145,22 @@ export function Contact() {
                   <div>
                     <label className="block text-sm text-white/50 mb-1.5">Message</label>
                     <textarea
+                      name="message"
                       rows={4}
                       required
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors resize-none"
                       placeholder="Tell us about your idea or how we can help..."
                     />
                   </div>
+                  {error && (
+                    <p className="text-red-400 text-sm">{error}</p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full px-6 py-4 text-base font-semibold rounded-xl bg-gradient-to-r from-orange to-orange-light text-white hover:shadow-lg hover:shadow-orange/25 transition-all"
+                    disabled={sending}
+                    className="w-full px-6 py-4 text-base font-semibold rounded-xl bg-gradient-to-r from-orange to-orange-light text-white hover:shadow-lg hover:shadow-orange/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    Send Message
+                    {sending ? <><Loader2 size={18} className="animate-spin" /> Sending...</> : 'Send Message'}
                   </button>
                 </form>
               )}
