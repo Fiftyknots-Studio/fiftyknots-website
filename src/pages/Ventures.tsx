@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { ColourFlag } from '../components/ColourFlag'
+import { IconRocket, IconGrowth, IconLightbulb, IconTarget, IconShieldCheck } from '../components/BrandIcons'
 
 const API_URL = 'https://platform.fiftyknots.com/api/v1/fiftyknots/ventures'
 
@@ -92,12 +94,13 @@ function stageBadge(v: Venture) {
   return { label: stage, color: 'bg-white/5 text-white/40 border-white/10' }
 }
 
-function VentureLogo({ name }: { name: string }) {
+function VentureLogo({ name, small }: { name: string; small?: boolean }) {
   const logo = getVentureLogo(name)
+  const size = small ? 'w-12 h-12' : 'w-16 h-16'
   if (!logo) {
     return (
-      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange/20 to-blue/20 flex items-center justify-center shrink-0">
-        <span className="text-xs font-bold text-white/40">{name.slice(0, 2).toUpperCase()}</span>
+      <div className={`${size} rounded-xl bg-gradient-to-br from-orange/20 to-blue/20 flex items-center justify-center shrink-0`}>
+        <span className={`${small ? 'text-sm' : 'text-lg'} font-bold text-white/30`}>{name.slice(0, 2).toUpperCase()}</span>
       </div>
     )
   }
@@ -106,7 +109,7 @@ function VentureLogo({ name }: { name: string }) {
       src={logo}
       alt={`${name} logo`}
       loading="lazy"
-      className="w-10 h-10 rounded-lg object-contain bg-white/5 p-1 shrink-0"
+      className={`${size} rounded-xl object-contain bg-white/5 p-2 shrink-0`}
     />
   )
 }
@@ -165,18 +168,23 @@ export function Ventures() {
           {/* Summary stats */}
           <div className="mt-12 grid grid-cols-3 md:grid-cols-5 gap-4">
             {[
-              { value: graduated.length, label: 'Exits', color: 'text-turquoise-light' },
-              { value: scaling.length, label: 'Scaling', color: 'text-turquoise' },
-              { value: innovating.length, label: 'Innovating', color: 'text-orange-light' },
-              { value: validating.length, label: 'Validating', color: 'text-yellow' },
-              { value: didNotValidate.length, label: 'Not Validated', color: 'text-white/30' },
-            ].map(({ value, label, color }) => (
-              <div key={label} className="glass-card p-4 text-center">
-                <p className={`text-2xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-white/30 mt-1">{label}</p>
+              { value: graduated.length, label: 'Exits', color: 'text-turquoise-light', Icon: IconRocket },
+              { value: scaling.length, label: 'Scaling', color: 'text-turquoise', Icon: IconGrowth },
+              { value: innovating.length, label: 'Innovating', color: 'text-orange-light', Icon: IconLightbulb },
+              { value: validating.length, label: 'Validating', color: 'text-yellow', Icon: IconTarget },
+              { value: didNotValidate.length, label: 'Not Validated', color: 'text-white/30', Icon: IconShieldCheck },
+            ].map(({ value, label, color, Icon }) => (
+              <div key={label} className="glass-card p-4 flex items-center gap-3 justify-center">
+                <Icon size={36} />
+                <div>
+                  <p className={`text-2xl font-bold ${color}`}>{value}</p>
+                  <p className="text-xs text-white/30">{label}</p>
+                </div>
               </div>
             ))}
           </div>
+
+          <ColourFlag className="mt-10 max-w-md" />
 
           {isLive && (
             <p className="mt-4 text-xs text-white/20 text-right">
@@ -202,17 +210,15 @@ export function Ventures() {
                   {graduated.map((v) => {
                     const badge = stageBadge(v)
                     return (
-                      <div key={v.name} className="glass-card p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <VentureLogo name={v.name} />
-                          <div>
-                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
-                          </div>
+                      <div key={v.name} className="glass-card p-6 flex items-center justify-between gap-4">
+                        <div className="min-w-0">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <p className="text-xs text-white/20 mt-1">Cohort {v.cohort}</p>}
+                          <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border mt-3 ${badge.color}`}>
+                            {badge.label}
+                          </span>
                         </div>
-                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                          {badge.label}
-                        </span>
+                        <VentureLogo name={v.name} />
                       </div>
                     )
                   })}
@@ -236,21 +242,19 @@ export function Ventures() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.05 }}
-                      className="glass-card p-6"
+                      className="glass-card p-6 flex items-center justify-between gap-4"
                     >
-                      <div className="flex items-center gap-3 mb-3">
-                        <VentureLogo name={v.name} />
-                        <div>
-                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                          {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
-                        </div>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                        {v.cohort !== null && <p className="text-xs text-white/20 mt-1">Cohort {v.cohort}</p>}
+                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border mt-3 ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                        {v.inception && (
+                          <p className="text-xs text-white/20 mt-2">Since {v.inception.slice(0, 7)}</p>
+                        )}
                       </div>
-                      <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                        {badge.label}
-                      </span>
-                      {v.inception && (
-                        <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
-                      )}
+                      <VentureLogo name={v.name} />
                     </motion.div>
                   )
                 })}
@@ -274,21 +278,19 @@ export function Ventures() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.05 }}
-                        className="glass-card p-6"
+                        className="glass-card p-6 flex items-center justify-between gap-4"
                       >
-                        <div className="flex items-center gap-3 mb-3">
-                          <VentureLogo name={v.name} />
-                          <div>
-                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
-                          </div>
+                        <div className="min-w-0">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <p className="text-xs text-white/20 mt-1">Cohort {v.cohort}</p>}
+                          <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border mt-3 ${badge.color}`}>
+                            {badge.label}
+                          </span>
+                          {v.inception && (
+                            <p className="text-xs text-white/20 mt-2">Since {v.inception.slice(0, 7)}</p>
+                          )}
                         </div>
-                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                          {badge.label}
-                        </span>
-                        {v.inception && (
-                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
-                        )}
+                        <VentureLogo name={v.name} />
                       </motion.div>
                     )
                   })}
@@ -313,21 +315,19 @@ export function Ventures() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.05 }}
-                        className="glass-card p-6"
+                        className="glass-card p-6 flex items-center justify-between gap-4"
                       >
-                        <div className="flex items-center gap-3 mb-3">
-                          <VentureLogo name={v.name} />
-                          <div>
-                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
-                          </div>
+                        <div className="min-w-0">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <p className="text-xs text-white/20 mt-1">Cohort {v.cohort}</p>}
+                          <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border mt-3 ${badge.color}`}>
+                            {badge.label}
+                          </span>
+                          {v.inception && (
+                            <p className="text-xs text-white/20 mt-2">Since {v.inception.slice(0, 7)}</p>
+                          )}
                         </div>
-                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                          {badge.label}
-                        </span>
-                        {v.inception && (
-                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
-                        )}
+                        <VentureLogo name={v.name} />
                       </motion.div>
                     )
                   })}
@@ -346,16 +346,14 @@ export function Ventures() {
                 </p>
                 <div className="grid md:grid-cols-3 gap-4">
                   {didNotValidate.map((v) => (
-                    <div key={v.name} className="glass-card p-4">
-                      <div className="flex items-center gap-3">
-                        <VentureLogo name={v.name} />
-                        <div>
-                          <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
-                          {v.cohort !== null && (
-                            <p className="text-xs text-white/15 mt-1">Cohort {v.cohort}</p>
-                          )}
-                        </div>
+                    <div key={v.name} className="glass-card p-4 flex items-center justify-between gap-4">
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
+                        {v.cohort !== null && (
+                          <p className="text-xs text-white/15 mt-1">Cohort {v.cohort}</p>
+                        )}
                       </div>
+                      <VentureLogo name={v.name} small />
                     </div>
                   ))}
                 </div>
@@ -368,6 +366,7 @@ export function Ventures() {
       {/* CTA */}
       <section className="py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 text-center">
+          <ColourFlag className="max-w-xs mx-auto mb-10" />
           <h2 className="text-3xl font-bold gradient-text mb-4">Join the next cohort.</h2>
           <p className="text-white/40 mb-8">Start with a free brief. No commitment required.</p>
           <a

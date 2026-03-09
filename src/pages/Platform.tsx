@@ -1,40 +1,41 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Bot, FileCheck, ShieldCheck, Wallet, BarChart3, BookOpen } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { IconLightbulb, IconDocument, IconBrain, IconShieldCheck, IconWallet, IconGauge, IconVault } from '../components/BrandIcons'
 
 const capabilities = [
   {
-    icon: Bot,
+    Icon: IconLightbulb,
     title: 'AI Briefing Wizard',
     description: 'Turn a messy idea into a structured, scored business brief in 30 minutes. AI-guided questions extract your ICP, metrics, problems, and value proposition. Free. Always.',
   },
   {
-    icon: FileCheck,
+    Icon: IconDocument,
     title: 'SpecChain Pipeline',
     description: 'Business Requirements to Functional Specs to Technical Design - each stage AI-enhanced with recursive quality validation. Grade B+ or it doesn\'t pass the gate.',
   },
   {
-    icon: Bot,
+    Icon: IconBrain,
     title: 'AI Sherpa',
     description: 'Your virtual co-founder. Powered by the most advanced AI available. Knows your idea, your constraints, your market. Available on WhatsApp, Slack, and in-platform.',
   },
   {
-    icon: ShieldCheck,
+    Icon: IconShieldCheck,
     title: 'Quality Certificates',
     description: 'Every stage gate produces a certificate - scored, auditable, defensible. Not "we reviewed it." Structural quality that compounds through every downstream activity.',
   },
   {
-    icon: Wallet,
+    Icon: IconWallet,
     title: 'Escrow Payments',
     description: 'Milestone-gated payments via Stripe. 40% at sign, 30% at spec approval, 30% at delivery. Your money is protected until each stage is certified.',
   },
   {
-    icon: BarChart3,
+    Icon: IconGauge,
     title: 'Confidence Assessment',
     description: '7-dimension viability scoring. Objective, repeatable, comparable. Know exactly where your venture stands before you spend a dollar on development.',
   },
   {
-    icon: BookOpen,
+    Icon: IconVault,
     title: 'Enterprise Data Vault',
     description: 'All your documents, research, decisions, and specifications in a secure, AI-searchable vault. The Sherpa draws on your vault during conversations.',
   },
@@ -107,7 +108,7 @@ export function Platform() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {capabilities.map(({ icon: Icon, title, description }, i) => (
+            {capabilities.map(({ Icon, title, description }, i) => (
               <motion.div
                 key={title}
                 initial={{ opacity: 0, y: 20 }}
@@ -116,9 +117,7 @@ export function Platform() {
                 transition={{ delay: i * 0.08 }}
                 className="glass-card p-6"
               >
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange/10 to-blue/10 flex items-center justify-center mb-4">
-                  <Icon size={20} className="text-orange-light" />
-                </div>
+                <Icon size={48} className="mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed">{description}</p>
               </motion.div>

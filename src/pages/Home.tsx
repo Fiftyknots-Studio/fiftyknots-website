@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap, Shield, Users, TrendingUp, Quote } from 'lucide-react'
+import { ArrowRight, Quote } from 'lucide-react'
+import { IconLightbulb, IconBrain, IconTeam, IconRocket, IconShieldCheck, IconOwnership, IconGrowth } from '../components/BrandIcons'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { ColourFlag } from '../components/ColourFlag'
 import { useStructuredData } from '../hooks/useStructuredData'
 
 const fadeUp = {
@@ -23,24 +25,28 @@ const journey = [
     title: 'Free Brief',
     description: 'AI-guided briefing wizard turns your messy idea into a structured, scored business brief. 30 minutes. Zero commitment.',
     color: 'from-turquoise to-turquoise-light',
+    Icon: IconLightbulb,
   },
   {
     step: '02',
     title: 'AI Sherpa',
     description: 'Weeks of free strategic coaching from an AI advisor that knows your idea, your constraints, and your market. More help than most $10K consulting engagements.',
     color: 'from-blue to-blue-light',
+    Icon: IconBrain,
   },
   {
     step: '03',
     title: 'Expert Build',
     description: 'Matched with vetted experts. Quality-certified specifications. Milestone-gated escrow payments. Enterprise-grade, not agency-grade.',
     color: 'from-orange to-orange-light',
+    Icon: IconTeam,
   },
   {
     step: '04',
     title: 'Shipped Product',
     description: 'Production-ready product in 8-12 weeks. Complete documentation. Quality certificates at every stage. You own everything.',
     color: 'from-yellow to-yellow-light',
+    Icon: IconRocket,
   },
 ]
 
@@ -169,6 +175,11 @@ export function Home() {
         </div>
       </section>
 
+      {/* Colour flag divider */}
+      <div className="max-w-7xl mx-auto px-6">
+        <ColourFlag className="max-w-xs" />
+      </div>
+
       {/* Problem - with ideaboy visual */}
       <section className="py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
@@ -260,7 +271,7 @@ export function Home() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {journey.map(({ step, title, description, color }, i) => (
+            {journey.map(({ step, title, description, color, Icon }, i) => (
               <motion.div
                 key={step}
                 initial={{ opacity: 0, y: 20 }}
@@ -271,10 +282,15 @@ export function Home() {
               >
                 <div className={`absolute -inset-0.5 bg-gradient-to-r ${color} rounded-2xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-500`} />
                 <div className="relative glass-card p-8">
-                  <span className={`text-sm font-bold bg-gradient-to-r ${color} bg-clip-text text-transparent`}>
-                    Step {step}
-                  </span>
-                  <h3 className="text-2xl font-bold text-white mt-2 mb-3">{title}</h3>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Icon size={48} />
+                    <div>
+                      <span className={`text-sm font-bold bg-gradient-to-r ${color} bg-clip-text text-transparent`}>
+                        Step {step}
+                      </span>
+                      <h3 className="text-2xl font-bold text-white">{title}</h3>
+                    </div>
+                  </div>
                   <p className="text-white/40 leading-relaxed">{description}</p>
                 </div>
               </motion.div>
@@ -288,11 +304,11 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { icon: Zap, title: '83% Less Cost', desc: '$25-30K instead of $145K+. Same quality. Better process.' },
-              { icon: Shield, title: 'Quality Certified', desc: 'Grade B+ quality gates at every stage. Enterprise-grade, not hope-grade.' },
-              { icon: Users, title: 'Expert Matched', desc: 'Vetted experts matched to your specific project. Escrow-protected payments.' },
-              { icon: TrendingUp, title: 'You Own Everything', desc: 'Complete specs, code, docs, and certificates. Take it anywhere. We don\'t take hostages.' },
-            ].map(({ icon: Icon, title, desc }, i) => (
+              { Icon: IconGrowth, title: '83% Less Cost', desc: '$25-30K instead of $145K+. Same quality. Better process.' },
+              { Icon: IconShieldCheck, title: 'Quality Certified', desc: 'Grade B+ quality gates at every stage. Enterprise-grade, not hope-grade.' },
+              { Icon: IconTeam, title: 'Expert Matched', desc: 'Vetted experts matched to your specific project. Escrow-protected payments.' },
+              { Icon: IconOwnership, title: 'You Own Everything', desc: 'Complete specs, code, docs, and certificates. Take it anywhere. We don\'t take hostages.' },
+            ].map(({ Icon, title, desc }, i) => (
               <motion.div
                 key={title}
                 initial={{ opacity: 0, y: 20 }}
@@ -301,9 +317,7 @@ export function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="glass-card p-6"
               >
-                <div className="w-10 h-10 rounded-lg bg-orange/10 flex items-center justify-center mb-4">
-                  <Icon size={20} className="text-orange-light" />
-                </div>
+                <Icon size={48} className="mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed">{desc}</p>
               </motion.div>
@@ -358,20 +372,22 @@ export function Home() {
 
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="grid md:grid-cols-5 gap-12 items-center">
-            {/* Astronaut kid - left */}
+            {/* Rocketboy - left */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="md:col-span-2 hidden md:block"
             >
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-blue/10 to-turquoise/10 rounded-full blur-2xl" />
+              <div
+                className="relative max-h-[400px] overflow-hidden mx-auto"
+                style={{ mask: 'radial-gradient(ellipse 75% 75% at center, black 40%, transparent 100%)', WebkitMask: 'radial-gradient(ellipse 75% 75% at center, black 40%, transparent 100%)' }}
+              >
                 <img
-                  src={`${import.meta.env.BASE_URL}astronaut-kid.png`}
-                  alt="Child in astronaut costume dreaming of building ventures"
+                  src={`${import.meta.env.BASE_URL}rocketboy.png`}
+                  alt="Child with rocket wings ready to launch"
                   loading="lazy"
-                  className="relative rounded-2xl max-h-[400px] object-cover mx-auto"
+                  className="w-full max-h-[400px] object-contain"
                 />
               </div>
             </motion.div>

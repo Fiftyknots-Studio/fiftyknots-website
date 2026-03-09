@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { Nav } from './Nav'
 import { Footer } from './Footer'
 import { WhatsAppButton } from './WhatsAppButton'
+import { AskSherpa } from './AskSherpa'
 
 export function Layout() {
   return (
@@ -14,6 +15,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <AskSherpa />
       <WhatsAppButton />
     </div>
   )
