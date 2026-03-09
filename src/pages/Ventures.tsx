@@ -263,7 +263,7 @@ export function Ventures() {
             <section className="py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Innovating</h2>
-                <p className="text-sm text-white/30 mb-8">The foundation - ventures that power the studio itself.</p>
+                <p className="text-sm text-white/30 mb-8">Ventures that are re-inventing and transforming themselves, re-aligning to changing market conditions. Prophetically, our foundational ventures each have an investment in this category, responding to our AI-Enabled future.</p>
                 <div className="grid md:grid-cols-3 gap-4">
                   {innovating.map((v, i) => {
                     const badge = stageBadge(v)
