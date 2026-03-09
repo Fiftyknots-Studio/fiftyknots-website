@@ -13,7 +13,7 @@ const stats = [
   { value: '7', label: 'Cohorts' },
   { value: '30', label: 'Ventures' },
   { value: '8+', label: 'Years' },
-  { value: '$25K', label: 'Not $145K' },
+  { value: '$25K', label: 'To startup, not $145K' },
 ]
 
 const journey = [
