@@ -45,6 +45,39 @@ const fallbackVentures: Venture[] = [
   { name: 'African Talent', cohort: 4, stage: 'EXIT - Not Validated', alive: false, inception: '2025-07', goal: 'Cash' },
 ]
 
+// Logo lookup - maps venture name (lowercase) to file in public/logos/
+const logoMap: Record<string, string> = {
+  'app.fiftyknots': 'app-fiftyknots.svg',
+  'ai-acumen': 'ai-acumen.png',
+  'gigtribe': 'gigtribe.png',
+  'better times': 'better-times.png',
+  'humanoid': 'humanoid.png',
+  'cmyk': 'cmyk.png',
+  'skills cafe': 'skills-cafe.png',
+  'our favorite things': '', // no logo available
+  'gcx-infinity': 'gcx-infinity.svg',
+  'gcx -infinity': 'gcx-infinity.svg',
+  'acupay': 'acupay.png',
+  'imalichat': 'imalichat.png',
+  'preditor': '', // no logo available
+  'our neurohood': '', // no logo available
+  'adagin technologies': 'adagin.png',
+  'mobinet': '', // no logo in folder
+  'gigster': 'gigster.png',
+  'yisani': 'yisani.png',
+  'good food network': 'good-food-network.png',
+  'healthfull': 'healthfull.svg',
+  'shopperlogiq': 'shopperlogiq.png',
+  'cashmax': 'cashmax.png',
+  'african talent': 'african-talent.png',
+  'sales acumen solutions': 'acumen.png',
+}
+
+function getVentureLogo(name: string): string | null {
+  const file = logoMap[name.toLowerCase()]
+  return file ? `${import.meta.env.BASE_URL}logos/${file}` : null
+}
+
 function stageBadge(v: Venture) {
   const { stage, alive } = v
   if (stage === 'Validation' && !alive) return { label: 'Failed Validation', color: 'bg-white/5 text-white/30 border-white/10' }
@@ -57,6 +90,25 @@ function stageBadge(v: Venture) {
   if (stage.includes('Failure to Launch')) return { label: 'Failed to Launch', color: 'bg-white/5 text-white/30 border-white/10' }
   if (stage.includes('Not Validated')) return { label: 'Not Validated', color: 'bg-white/5 text-white/30 border-white/10' }
   return { label: stage, color: 'bg-white/5 text-white/40 border-white/10' }
+}
+
+function VentureLogo({ name }: { name: string }) {
+  const logo = getVentureLogo(name)
+  if (!logo) {
+    return (
+      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange/20 to-blue/20 flex items-center justify-center shrink-0">
+        <span className="text-xs font-bold text-white/40">{name.slice(0, 2).toUpperCase()}</span>
+      </div>
+    )
+  }
+  return (
+    <img
+      src={logo}
+      alt={`${name} logo`}
+      loading="lazy"
+      className="w-10 h-10 rounded-lg object-contain bg-white/5 p-1 shrink-0"
+    />
+  )
 }
 
 export function Ventures() {
@@ -145,17 +197,22 @@ export function Ventures() {
             <section className="py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Exits</h2>
-                <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
+                <p className="text-sm text-white/30 mb-8">Ventures exited to our founders - the infinite game continues.</p>
                 <div className="grid md:grid-cols-3 gap-4">
                   {graduated.map((v) => {
                     const badge = stageBadge(v)
                     return (
                       <div key={v.name} className="glass-card p-6">
-                        <h3 className="text-lg font-semibold text-white mb-3">{v.name}</h3>
+                        <div className="flex items-center gap-3 mb-3">
+                          <VentureLogo name={v.name} />
+                          <div>
+                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
+                          </div>
+                        </div>
                         <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
                           {badge.label}
                         </span>
-                        <p className="text-xs text-white/20 mt-3">Cohort {v.cohort}</p>
                       </div>
                     )
                   })}
@@ -181,9 +238,12 @@ export function Ventures() {
                       transition={{ delay: i * 0.05 }}
                       className="glass-card p-6"
                     >
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                        {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                      <div className="flex items-center gap-3 mb-3">
+                        <VentureLogo name={v.name} />
+                        <div>
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
+                        </div>
                       </div>
                       <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
                         {badge.label}
@@ -216,9 +276,12 @@ export function Ventures() {
                         transition={{ delay: i * 0.05 }}
                         className="glass-card p-6"
                       >
-                        <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                        <div className="flex items-center gap-3 mb-3">
+                          <VentureLogo name={v.name} />
+                          <div>
+                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
+                          </div>
                         </div>
                         <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
                           {badge.label}
@@ -252,9 +315,12 @@ export function Ventures() {
                         transition={{ delay: i * 0.05 }}
                         className="glass-card p-6"
                       >
-                        <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                        <div className="flex items-center gap-3 mb-3">
+                          <VentureLogo name={v.name} />
+                          <div>
+                            <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                            {v.cohort !== null && <p className="text-xs text-white/20">Cohort {v.cohort}</p>}
+                          </div>
                         </div>
                         <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
                           {badge.label}
@@ -278,13 +344,18 @@ export function Ventures() {
                 <p className="text-sm text-white/30 mb-8">
                   Every venture teaches us something. The lessons from these shape every new cohort.
                 </p>
-                <div className="grid md:grid-cols-4 gap-3">
+                <div className="grid md:grid-cols-3 gap-4">
                   {didNotValidate.map((v) => (
                     <div key={v.name} className="glass-card p-4">
-                      <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
-                      {v.cohort !== null && (
-                        <p className="text-xs text-white/15 mt-1">Cohort {v.cohort}</p>
-                      )}
+                      <div className="flex items-center gap-3">
+                        <VentureLogo name={v.name} />
+                        <div>
+                          <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
+                          {v.cohort !== null && (
+                            <p className="text-xs text-white/15 mt-1">Cohort {v.cohort}</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
