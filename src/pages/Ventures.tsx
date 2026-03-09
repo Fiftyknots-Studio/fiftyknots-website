@@ -14,11 +14,17 @@ interface Venture {
   goal: string | null
 }
 
-// Fallback data in case the API is unreachable
+// Fallback data synced from Notion (2026-03-09)
 const fallbackVentures: Venture[] = [
-  { name: 'FIFTYKNOTS - STUDIO', cohort: 7, stage: 'Zero-to-Founder', alive: true, inception: '2026-01', goal: 'Dual' },
-  { name: 'AI-Acumen', cohort: 6, stage: 'Zero-to-Founder', alive: true, inception: '2025-08', goal: 'Dual' },
+  // Innovating - the foundation
+  { name: 'app.fiftyknots', cohort: 7, stage: 'Zero-to-Founder', alive: true, inception: '2018-01', goal: 'Dual' },
+  // Validating - zero to founder
+  { name: 'ai-acumen', cohort: 6, stage: 'Zero-to-Founder', alive: true, inception: '2025-08', goal: 'Dual' },
   { name: 'GiGTRiBE', cohort: 2, stage: 'Zero-to-Founder', alive: true, inception: '2022-02', goal: 'Dual' },
+  { name: 'Our NeuroHood', cohort: 4, stage: 'Zero-to-Founder', alive: true, inception: '2025-05', goal: 'PayDay' },
+  { name: 'ImaliChat', cohort: 3, stage: 'Zero-to-Founder', alive: true, inception: '2023-05', goal: 'PayDay' },
+  { name: 'Preditor', cohort: 6, stage: 'Zero-to-Founder', alive: true, inception: '2025-10', goal: 'PayDay' },
+  // Scaling - launch to scale
   { name: 'Better Times', cohort: 1, stage: 'Launch-to-Scale', alive: true, inception: '2025-08', goal: 'PayDay' },
   { name: 'Humanoid', cohort: 2, stage: 'Launch-to-Scale', alive: true, inception: '2025-05', goal: 'PayDay' },
   { name: 'CMYK', cohort: 2, stage: 'Launch-to-Scale', alive: true, inception: '2022-11', goal: 'PayDay' },
@@ -26,25 +32,17 @@ const fallbackVentures: Venture[] = [
   { name: 'Our Favorite Things', cohort: 3, stage: 'Launch-to-Scale', alive: true, inception: '2023-06', goal: 'PayDay' },
   { name: 'GCX-Infinity', cohort: 5, stage: 'Launch-to-Scale', alive: true, inception: '2025-05', goal: 'Cash' },
   { name: 'AcuPay', cohort: 4, stage: 'Launch-to-Scale', alive: true, inception: '2024-10', goal: 'Cash' },
-  { name: 'Our NeuroHood', cohort: 4, stage: 'Zero-to-Founder', alive: true, inception: '2025-05', goal: 'PayDay' },
-  { name: 'ImaliChat', cohort: 3, stage: 'Zero-to-Founder', alive: true, inception: '2023-05', goal: 'PayDay' },
-  { name: 'Preditor', cohort: 6, stage: 'Zero-to-Founder', alive: true, inception: '2025-10', goal: 'PayDay' },
-  { name: 'Sales Acumen Solutions', cohort: 0, stage: 'Corporate Innovator', alive: true, inception: '2014-01', goal: 'Cash' },
-  { name: 'FiftyKnots', cohort: 0, stage: 'Launch-to-Scale', alive: true, inception: null, goal: 'PayDay' },
+  // Graduated - exited to founders
   { name: 'Adagin Technologies', cohort: 1, stage: 'EXIT - to Founder(s)', alive: true, inception: '2018-08', goal: 'PayDay' },
   { name: 'MobiNET', cohort: 1, stage: 'EXIT - to Founder(s)', alive: true, inception: '2022-11', goal: 'PayDay' },
-  { name: 'Automated Insights', cohort: 7, stage: 'EXIT - to Founder(s)', alive: true, inception: '2025-12', goal: 'PayDay' },
+  { name: 'GiGSTER', cohort: 2, stage: 'EXIT - to Founder(s)', alive: true, inception: '2017-03', goal: 'PayDay' },
+  // Did not validate
   { name: 'Yisani', cohort: 2, stage: 'EXIT - Failed MPF', alive: false, inception: '2020-09', goal: 'PayDay' },
   { name: 'Good Food Network', cohort: 3, stage: 'EXIT - Failed MPF', alive: false, inception: '2024-01', goal: 'PayDay' },
   { name: 'Healthfull', cohort: 3, stage: 'EXIT - Failed MPF', alive: false, inception: '2022-02', goal: 'PayDay' },
   { name: 'ShopperLogiq', cohort: 1, stage: 'EXIT - Failed MPF', alive: false, inception: '2014-02', goal: 'PayDay' },
   { name: 'CashMax', cohort: 5, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
   { name: 'African Talent', cohort: 4, stage: 'EXIT - Not Validated', alive: false, inception: '2025-07', goal: 'Cash' },
-  { name: 'TAPP', cohort: 6, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-10', goal: 'PayDay' },
-  { name: 'Gambling For Good', cohort: 6, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-09', goal: 'PayDay' },
-  { name: 'TimeWyze', cohort: 5, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
-  { name: 'Acacia', cohort: 5, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-06', goal: 'PayDay' },
-  { name: 'FiftyKnots Impact', cohort: 4, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
 ]
 
 function stageBadge(v: Venture) {
@@ -62,7 +60,7 @@ function stageBadge(v: Venture) {
 }
 
 export function Ventures() {
-  usePageMeta('Ventures', '30+ ventures across 7 cohorts. See the live portfolio powered by FiftyKnots.')
+  usePageMeta('Ventures', 'Ventures across 7 cohorts. See the live portfolio powered by FiftyKnots.')
 
   const [ventures, setVentures] = useState<Venture[]>(fallbackVentures)
   const [isLive, setIsLive] = useState(false)
@@ -83,7 +81,7 @@ export function Ventures() {
       .finally(() => setLoading(false))
   }, [])
 
-  const isInnovating = (v: Venture) => v.stage === 'Corporate Innovator' || v.name.includes('VSOS') || v.name.includes('App.Fiftyknots') || v.name.includes('FIFTYKNOTS') || v.name === 'FiftyKnots'
+  const isInnovating = (v: Venture) => v.stage === 'Corporate Innovator' || v.name.toLowerCase().includes('fiftyknots') || v.name.toLowerCase().includes('acumen')
   const validating = ventures.filter(v => v.stage === 'Zero-to-Founder' && v.alive && !isInnovating(v))
   const scaling = ventures.filter(v => v.stage === 'Launch-to-Scale' && v.alive && !isInnovating(v))
   const innovating = ventures.filter(v => isInnovating(v) && v.alive)
