@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap, Shield, Users, TrendingUp } from 'lucide-react'
+import { ArrowRight, Zap, Shield, Users, TrendingUp, Quote } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useStructuredData } from '../hooks/useStructuredData'
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -43,8 +44,46 @@ const journey = [
   },
 ]
 
+const testimonials = [
+  {
+    name: 'Alex van den Bosch',
+    title: 'Co-Founder & CEO, MobiNET',
+    quote: "The minimum viable core was developed and released in under 8 weeks. This foundation has scaled to thousands of users without needing any revisions.",
+  },
+  {
+    name: 'Anne Atherton',
+    title: 'CEO, Our Favorite Things',
+    quote: 'An incredible service in terms of creativity, quality and expediency. They delivered beyond our expectations and helped us bring our vision to life faster than we thought possible.',
+  },
+  {
+    name: 'Karen Rothwell',
+    title: 'CEO, EPR-Infinity',
+    quote: 'What a dream team! They managed the business plan process and business setup to the tee with the utmost accuracy and professionalism.',
+  },
+]
+
 export function Home() {
   usePageMeta('FiftyKnots - Start Up. Build Up. Scale Up.', 'Venture studio that takes founders from imagination to shipped product in 8-12 weeks. AI-powered. Quality-certified. 83% less than the traditional path.')
+  useStructuredData({
+    '@type': 'WebSite',
+    name: 'FiftyKnots',
+    url: 'https://www.fiftyknots.com',
+    description: 'Venture studio that takes founders from imagination to shipped product in 8-12 weeks.',
+  })
+  useStructuredData({
+    '@type': 'Service',
+    name: 'FiftyKnots Venture Building',
+    provider: { '@type': 'Organization', name: 'FiftyKnots' },
+    description: 'AI-powered venture building - from idea to shipped product in 8-12 weeks. Quality-certified at every stage.',
+    areaServed: 'Worldwide',
+    serviceType: 'Venture Studio',
+    offers: {
+      '@type': 'Offer',
+      price: '25000',
+      priceCurrency: 'USD',
+      description: 'Full venture build - briefing, specifications, expert build, shipped product',
+    },
+  })
 
   return (
     <div className="pt-16">
@@ -145,7 +184,8 @@ export function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent z-10" />
                 <img
                   src={`${import.meta.env.BASE_URL}ideaboy.jpg`}
-                  alt="From questions to ideas"
+                  alt="Young entrepreneur exploring business ideas"
+                  loading="lazy"
                   className="w-full rounded-2xl"
                 />
               </div>
@@ -173,6 +213,32 @@ export function Home() {
               </p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Why we exist - manifesto */}
+      <section className="py-24 border-t border-white/5">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-6 text-center">
+              Why we exist.
+            </h2>
+            <p className="text-lg text-white/50 leading-relaxed mb-6 text-center">
+              The venture capital model funds 250 startups expecting 249 to fail.
+              That model was built for Silicon Valley - abundant capital, safety nets,
+              cultural tolerance for failure. It does not work for founders in Johannesburg,
+              Nairobi, or Jakarta. They can't afford to be cannon fodder.
+            </p>
+            <p className="text-lg text-white/60 leading-relaxed text-center">
+              We believe in 250 sustainable businesses over 1 unicorn.
+              2,500 real jobs. 250,000 customers served. Nobody had to be a statistic.
+              AI made the economics possible. We built the machine.
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -246,6 +312,45 @@ export function Home() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-4">
+              Founders who built with us.
+            </h2>
+            <p className="text-lg text-white/40">
+              Real results. No fabricated stats.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map(({ name, title, quote }, i) => (
+              <motion.div
+                key={name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="glass-card p-8"
+              >
+                <Quote size={20} className="text-orange-light/40 mb-4" />
+                <p className="text-white/50 leading-relaxed mb-6">"{quote}"</p>
+                <div>
+                  <p className="text-white font-semibold">{name}</p>
+                  <p className="text-sm text-white/30">{title}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA - with astronaut kid */}
       <section className="py-24 border-t border-white/5 relative overflow-hidden">
         {/* Background glow */}
@@ -264,7 +369,8 @@ export function Home() {
                 <div className="absolute -inset-4 bg-gradient-to-br from-blue/10 to-turquoise/10 rounded-full blur-2xl" />
                 <img
                   src={`${import.meta.env.BASE_URL}astronaut-kid.png`}
-                  alt="Dream big, build real"
+                  alt="Child in astronaut costume dreaming of building ventures"
+                  loading="lazy"
                   className="relative rounded-2xl max-h-[400px] object-cover mx-auto"
                 />
               </div>

@@ -43,10 +43,14 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/20 text-xs">&copy; {new Date().getFullYear()} FiftyKnots (Pty) Ltd. All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <p className="text-white/20 text-xs">&copy; {new Date().getFullYear()} FiftyKnots (Pty) Ltd. All rights reserved.</p>
+            <span className="text-white/10 text-xs hidden sm:inline">|</span>
+            <p className="text-white/15 text-xs">Proudly built in Cape Town, South Africa</p>
+          </div>
           <div className="flex gap-6">
-            <a href="https://www.linkedin.com/company/fiftyknots" target="_blank" rel="noopener" className="text-white/20 text-xs hover:text-white/40 transition-colors">LinkedIn</a>
-            <a href="https://instagram.com/fiftyknots" target="_blank" rel="noopener" className="text-white/20 text-xs hover:text-white/40 transition-colors">Instagram</a>
+            <a href="https://www.linkedin.com/company/fiftyknots" target="_blank" rel="noopener noreferrer" className="text-white/20 text-xs hover:text-white/40 transition-colors">LinkedIn</a>
+            <a href="https://instagram.com/fiftyknots" target="_blank" rel="noopener noreferrer" className="text-white/20 text-xs hover:text-white/40 transition-colors">Instagram</a>
           </div>
         </div>
       </div>

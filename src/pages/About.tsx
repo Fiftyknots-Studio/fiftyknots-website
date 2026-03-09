@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useStructuredData } from '../hooks/useStructuredData'
 
 const team = [
   {
@@ -44,6 +45,20 @@ const values = [
 
 export function About() {
   usePageMeta('About', 'Meet the team behind FiftyKnots. 7 cohorts, 30 ventures, and 8+ years of building ventures from scratch.')
+  useStructuredData({
+    '@type': 'AboutPage',
+    name: 'About FiftyKnots',
+    description: 'Meet the team behind FiftyKnots. 7 cohorts, 30 ventures, and 8+ years of venture building.',
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'FiftyKnots',
+      founder: team.map((t) => ({
+        '@type': 'Person',
+        name: t.name,
+        jobTitle: t.role,
+      })),
+    },
+  })
 
   return (
     <div className="pt-16">
