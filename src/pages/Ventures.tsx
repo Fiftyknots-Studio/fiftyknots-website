@@ -113,11 +113,11 @@ export function Ventures() {
           {/* Summary stats */}
           <div className="mt-12 grid grid-cols-3 md:grid-cols-5 gap-4">
             {[
-              { value: validating.length, label: 'Validating', color: 'text-yellow' },
+              { value: graduated.length, label: 'Exits', color: 'text-turquoise-light' },
               { value: scaling.length, label: 'Scaling', color: 'text-turquoise' },
               { value: innovating.length, label: 'Innovating', color: 'text-orange-light' },
-              { value: graduated.length, label: 'Graduated', color: 'text-turquoise-light' },
-              { value: didNotValidate.length, label: 'Did not validate', color: 'text-white/30' },
+              { value: validating.length, label: 'Validating', color: 'text-yellow' },
+              { value: didNotValidate.length, label: 'Not Validated', color: 'text-white/30' },
             ].map(({ value, label, color }) => (
               <div key={label} className="glass-card p-4 text-center">
                 <p className={`text-2xl font-bold ${color}`}>{value}</p>
@@ -140,11 +140,11 @@ export function Ventures() {
         </div>
       ) : (
         <>
-          {/* Graduated - the pinnacle */}
+          {/* Exits */}
           {graduated.length > 0 && (
             <section className="py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-6">
-                <h2 className="text-2xl font-bold text-white mb-2">Graduated</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">Exits</h2>
                 <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
                 <div className="grid md:grid-cols-3 gap-4">
                   {graduated.map((v) => {
@@ -157,42 +157,6 @@ export function Ventures() {
                         </span>
                         <p className="text-xs text-white/20 mt-3">Cohort {v.cohort}</p>
                       </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Innovating - the foundation */}
-          {innovating.length > 0 && (
-            <section className="py-12 border-t border-white/5">
-              <div className="max-w-7xl mx-auto px-6">
-                <h2 className="text-2xl font-bold text-white mb-2">Innovating</h2>
-                <p className="text-sm text-white/30 mb-8">The foundation - ventures that power the studio itself.</p>
-                <div className="grid md:grid-cols-3 gap-4">
-                  {innovating.map((v, i) => {
-                    const badge = stageBadge(v)
-                    return (
-                      <motion.div
-                        key={v.name}
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.05 }}
-                        className="glass-card p-6"
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
-                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
-                        </div>
-                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
-                          {badge.label}
-                        </span>
-                        {v.inception && (
-                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
-                        )}
-                      </motion.div>
                     )
                   })}
                 </div>
@@ -234,6 +198,42 @@ export function Ventures() {
             </div>
           </section>
 
+          {/* Innovating - the foundation */}
+          {innovating.length > 0 && (
+            <section className="py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-2xl font-bold text-white mb-2">Innovating</h2>
+                <p className="text-sm text-white/30 mb-8">The foundation - ventures that power the studio itself.</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {innovating.map((v, i) => {
+                    const badge = stageBadge(v)
+                    return (
+                      <motion.div
+                        key={v.name}
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05 }}
+                        className="glass-card p-6"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                        </div>
+                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                        {v.inception && (
+                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
+                        )}
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Validating */}
           {validating.length > 0 && (
             <section className="py-12 border-t border-white/5">
@@ -274,7 +274,7 @@ export function Ventures() {
           {didNotValidate.length > 0 && (
             <section className="py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-6">
-                <h2 className="text-2xl font-bold text-white mb-2">Did not validate</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">Not Validated</h2>
                 <p className="text-sm text-white/30 mb-8">
                   Every venture teaches us something. The lessons from these shape every new cohort.
                 </p>
