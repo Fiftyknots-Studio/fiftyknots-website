@@ -16,7 +16,7 @@ interface Venture {
 
 // Fallback data in case the API is unreachable
 const fallbackVentures: Venture[] = [
-  { name: 'App.Fiftyknots.com (VSOS)', cohort: 7, stage: 'Zero-to-Founder', alive: true, inception: '2026-01', goal: 'Dual' },
+  { name: 'FIFTYKNOTS - STUDIO', cohort: 7, stage: 'Zero-to-Founder', alive: true, inception: '2026-01', goal: 'Dual' },
   { name: 'AI-Acumen', cohort: 6, stage: 'Zero-to-Founder', alive: true, inception: '2025-08', goal: 'Dual' },
   { name: 'GiGTRiBE', cohort: 2, stage: 'Zero-to-Founder', alive: true, inception: '2022-02', goal: 'Dual' },
   { name: 'Better Times', cohort: 1, stage: 'Launch-to-Scale', alive: true, inception: '2025-08', goal: 'PayDay' },
@@ -39,7 +39,7 @@ const fallbackVentures: Venture[] = [
   { name: 'Healthfull', cohort: 3, stage: 'EXIT - Failed MPF', alive: false, inception: '2022-02', goal: 'PayDay' },
   { name: 'ShopperLogiq', cohort: 1, stage: 'EXIT - Failed MPF', alive: false, inception: '2014-02', goal: 'PayDay' },
   { name: 'CashMax', cohort: 5, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
-  { name: 'African Talent', cohort: 4, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-07', goal: 'Cash' },
+  { name: 'African Talent', cohort: 4, stage: 'EXIT - Not Validated', alive: false, inception: '2025-07', goal: 'Cash' },
   { name: 'TAPP', cohort: 6, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-10', goal: 'PayDay' },
   { name: 'Gambling For Good', cohort: 6, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-09', goal: 'PayDay' },
   { name: 'TimeWyze', cohort: 5, stage: 'EXIT - Failure to Launch', alive: false, inception: '2025-05', goal: 'PayDay' },
@@ -52,8 +52,8 @@ function stageBadge(v: Venture) {
   if (stage === 'Validation' && !alive) return { label: 'Failed Validation', color: 'bg-white/5 text-white/30 border-white/10' }
   if (stage === 'Validation') return { label: 'Validating', color: 'bg-yellow/10 text-yellow border-yellow/20' }
   if (stage === 'Launch-to-Scale') return { label: 'Scaling', color: 'bg-turquoise/10 text-turquoise border-turquoise/20' }
-  if (stage === 'Zero-to-Founder') return { label: 'Building', color: 'bg-blue/10 text-blue border-blue/20' }
-  if (stage === 'Corporate Innovator') return { label: 'Corporate', color: 'bg-orange/10 text-orange border-orange/20' }
+  if (stage === 'Zero-to-Founder') return { label: 'Validating', color: 'bg-yellow/10 text-yellow border-yellow/20' }
+  if (stage === 'Corporate Innovator') return { label: 'Innovating', color: 'bg-orange/10 text-orange border-orange/20' }
   if (stage.includes('to Founder')) return { label: 'Exited to Founders', color: 'bg-turquoise/10 text-turquoise-light border-turquoise/20' }
   if (stage.includes('Failed MPF')) return { label: 'Failed MPF', color: 'bg-white/5 text-white/30 border-white/10' }
   if (stage.includes('Failure to Launch')) return { label: 'Failed to Launch', color: 'bg-white/5 text-white/30 border-white/10' }
@@ -83,10 +83,12 @@ export function Ventures() {
       .finally(() => setLoading(false))
   }, [])
 
-  const active = ventures.filter(v => !v.stage.includes('EXIT') && !(v.stage === 'Validation' && !v.alive))
-  const exited = ventures.filter(v => v.stage.includes('to Founder'))
-  const failed = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure') || v.stage.includes('Not Validated') || (v.stage === 'Validation' && !v.alive))
-  const validating = ventures.filter(v => v.stage === 'Validation' && v.alive)
+  const isInnovating = (v: Venture) => v.stage === 'Corporate Innovator' || v.name.includes('VSOS') || v.name.includes('App.Fiftyknots') || v.name.includes('FIFTYKNOTS') || v.name === 'FiftyKnots'
+  const validating = ventures.filter(v => v.stage === 'Zero-to-Founder' && v.alive && !isInnovating(v))
+  const scaling = ventures.filter(v => v.stage === 'Launch-to-Scale' && v.alive && !isInnovating(v))
+  const innovating = ventures.filter(v => isInnovating(v) && v.alive)
+  const graduated = ventures.filter(v => v.stage.includes('to Founder'))
+  const didNotValidate = ventures.filter(v => v.stage.includes('Failed') || v.stage.includes('Failure') || v.stage.includes('Not Validated') || (v.stage === 'Validation' && !v.alive))
 
   return (
     <div className="pt-16">
@@ -111,13 +113,13 @@ export function Ventures() {
           </motion.div>
 
           {/* Summary stats */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="mt-12 grid grid-cols-3 md:grid-cols-5 gap-4">
             {[
-              { value: exited.length, label: 'Graduated', color: 'text-turquoise-light' },
-              { value: active.length, label: 'Active', color: 'text-turquoise' },
               { value: validating.length, label: 'Validating', color: 'text-yellow' },
-              { value: failed.length, label: 'Retired', color: 'text-white/30' },
-              { value: '8+', label: 'Years', color: 'text-orange-light' },
+              { value: scaling.length, label: 'Scaling', color: 'text-turquoise' },
+              { value: innovating.length, label: 'Innovating', color: 'text-orange-light' },
+              { value: graduated.length, label: 'Graduated', color: 'text-turquoise-light' },
+              { value: didNotValidate.length, label: 'Did not validate', color: 'text-white/30' },
             ].map(({ value, label, color }) => (
               <div key={label} className="glass-card p-4 text-center">
                 <p className={`text-2xl font-bold ${color}`}>{value}</p>
@@ -141,13 +143,13 @@ export function Ventures() {
       ) : (
         <>
           {/* Graduated - the pinnacle */}
-          {exited.length > 0 && (
+          {graduated.length > 0 && (
             <section className="py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Graduated</h2>
                 <p className="text-sm text-white/30 mb-8">Ventures returned to their founders - the infinite game continues.</p>
                 <div className="grid md:grid-cols-3 gap-4">
-                  {exited.map((v) => {
+                  {graduated.map((v) => {
                     const badge = stageBadge(v)
                     return (
                       <div key={v.name} className="glass-card p-6">
@@ -164,12 +166,49 @@ export function Ventures() {
             </section>
           )}
 
-          {/* Active Ventures */}
+          {/* Innovating - the foundation */}
+          {innovating.length > 0 && (
+            <section className="py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-2xl font-bold text-white mb-2">Innovating</h2>
+                <p className="text-sm text-white/30 mb-8">The foundation - ventures that power the studio itself.</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {innovating.map((v, i) => {
+                    const badge = stageBadge(v)
+                    return (
+                      <motion.div
+                        key={v.name}
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05 }}
+                        className="glass-card p-6"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                        </div>
+                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                        {v.inception && (
+                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
+                        )}
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Scaling */}
           <section className="py-12 border-t border-white/5">
             <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-2xl font-bold text-white mb-8">Active Ventures</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">Scaling</h2>
+              <p className="text-sm text-white/30 mb-8">Validated, launched, and growing.</p>
               <div className="grid md:grid-cols-3 gap-4">
-                {active.map((v, i) => {
+                {scaling.map((v, i) => {
                   const badge = stageBadge(v)
                   return (
                     <motion.div
@@ -197,28 +236,63 @@ export function Ventures() {
             </div>
           </section>
 
-          {/* Retired */}
-          <section className="py-12 border-t border-white/5">
-            <div className="max-w-7xl mx-auto px-6">
-              <h2 className="text-2xl font-bold text-white mb-2">Retired</h2>
-              <p className="text-sm text-white/30 mb-8">
-                Every venture teaches us something. The lessons from these shape every new cohort.
-              </p>
-              <div className="grid md:grid-cols-4 gap-3">
-                {failed.map((v) => {
-                  const badge = stageBadge(v)
-                  return (
+          {/* Validating */}
+          {validating.length > 0 && (
+            <section className="py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-2xl font-bold text-white mb-2">Validating</h2>
+                <p className="text-sm text-white/30 mb-8">Zero-to-founder - finding product-market fit.</p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {validating.map((v, i) => {
+                    const badge = stageBadge(v)
+                    return (
+                      <motion.div
+                        key={v.name}
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05 }}
+                        className="glass-card p-6"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-lg font-semibold text-white">{v.name}</h3>
+                          {v.cohort !== null && <span className="text-xs text-white/20">C{v.cohort}</span>}
+                        </div>
+                        <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full border ${badge.color}`}>
+                          {badge.label}
+                        </span>
+                        {v.inception && (
+                          <p className="text-xs text-white/20 mt-3">Since {v.inception.slice(0, 7)}</p>
+                        )}
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Did not validate */}
+          {didNotValidate.length > 0 && (
+            <section className="py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-2xl font-bold text-white mb-2">Did not validate</h2>
+                <p className="text-sm text-white/30 mb-8">
+                  Every venture teaches us something. The lessons from these shape every new cohort.
+                </p>
+                <div className="grid md:grid-cols-4 gap-3">
+                  {didNotValidate.map((v) => (
                     <div key={v.name} className="glass-card p-4">
                       <h3 className="text-sm font-medium text-white/50">{v.name}</h3>
-                      <span className={`inline-block mt-2 px-2 py-0.5 text-xs font-medium rounded-full border ${badge.color}`}>
-                        {badge.label}
-                      </span>
+                      {v.cohort !== null && (
+                        <p className="text-xs text-white/15 mt-1">Cohort {v.cohort}</p>
+                      )}
                     </div>
-                  )
-                })}
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
         </>
       )}
 
